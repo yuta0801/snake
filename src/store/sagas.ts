@@ -1,11 +1,12 @@
 import { select, take, takeLatest, put, fork, delay } from 'redux-saga/effects'
-import { TICK_INTERVAL, DIRECTION } from '../game/constants'
+import { TICK_INTERVAL, DIRECTION, INITIAL_PLAYER } from '../game/constants'
 import * as Actions from './actions'
 import * as Types from './types'
 import { State } from './state'
 import * as Game from '../game'
 
 function* game() {
+  yield put(Actions.setPlayer(INITIAL_PLAYER))
   yield fork(gameHandleKey)
   yield fork(gameBoardUpdate)
 }

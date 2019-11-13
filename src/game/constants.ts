@@ -5,6 +5,11 @@ export const BOARD_SIZE = 25
 export const INITIAL_BOARD =
   [...Array(BOARD_SIZE)].map(_ => Array(BOARD_SIZE).fill(0))
 
+export const INITIAL_PLAYER = {
+  point: { x: 12, y: 12 },
+  direction: { x: 1, y: 0 },
+} as const
+
 export const CELL_SIZE = 20
 export enum CELL_TYPE {
   EMPTY,

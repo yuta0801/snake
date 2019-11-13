@@ -1,5 +1,5 @@
 import { Board, Point, Direction } from '../game/types'
-import { INITIAL_BOARD } from '../game/constants'
+import { INITIAL_BOARD, INITIAL_PLAYER } from '../game/constants'
 
 export interface State {
   playing: boolean
@@ -13,10 +13,7 @@ export interface State {
 const initialState: State = {
   playing: false,
   board: INITIAL_BOARD,
-  player: {
-    point: { x: 12, y: 12 },
-    direction: { x: 1, y: 0 }
-  },
+  player: INITIAL_PLAYER,
 }
 
 export default initialState
