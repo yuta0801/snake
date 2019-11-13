@@ -1,16 +1,22 @@
-import { Board, Point } from '../game/types'
-import { BOARD_SIZE } from '../game/constants'
+import { Board, Point, Direction } from '../game/types'
+import { INITIAL_BOARD } from '../game/constants'
 
 export interface State {
   playing: boolean
   board: Board
-  point: Point
+  player: {
+    point: Point
+    direction: Direction
+  }
 }
 
 const initialState: State = {
   playing: false,
-  board: [...Array(BOARD_SIZE)].map(_ => Array(BOARD_SIZE).fill(0)),
-  point: { x: 0, y: 0 },
+  board: INITIAL_BOARD,
+  player: {
+    point: { x: 12, y: 12 },
+    direction: { x: 1, y: 0 }
+  },
 }
 
 export default initialState

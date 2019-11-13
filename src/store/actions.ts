@@ -10,4 +10,4 @@ export const sysGameOver = createAction(Types.SYS_GAME_OVER)
 
 export const setPlaying = createAction(Types.SET_PLAYING, (isPlaying: boolean) => isPlaying)
 export const setBoard = createAction(Types.SET_BOARD, (board: State['board']) => board)
-export const setPoint = createAction(Types.SET_POINT, (point: State['point']) => point)
+export const setPlayer = createAction(Types.SET_PLAYER, (player: State['player']) => player)

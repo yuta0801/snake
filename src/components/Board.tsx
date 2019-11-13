@@ -4,7 +4,7 @@ import { State } from '../store/state'
 import { BOARD_SIZE, CELL_SIZE, CELL_COLORS } from '../game/constants'
 
 const Board = () => {
-  const { board, point } = useSelector((state: State) => state)
+  const { board, player } = useSelector((state: State) => state)
 
   const boardSize = (BOARD_SIZE * CELL_SIZE) + 2
 
@@ -15,7 +15,7 @@ const Board = () => {
         x={0} y={0} stroke="black" fill="none"
       />
       { board.map((col, x) => col.map((cell, y) => {
-        const here = x === point.x && y === point.y
+        const here = x === player.point.x && y === player.point.y
         return (
           <rect
             x={(x * CELL_SIZE) + 1} y={(y * CELL_SIZE) + 1}

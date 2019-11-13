@@ -1,6 +1,10 @@
-export const TICK_INTERVAL = 50
+export const TICK_INTERVAL = 100
 
 export const BOARD_SIZE = 25
+
+export const INITIAL_BOARD =
+  [...Array(BOARD_SIZE)].map(_ => Array(BOARD_SIZE).fill(0))
+
 export const CELL_SIZE = 20
 export enum CELL_TYPE {
   EMPTY,

@@ -6,4 +6,4 @@ export const SYS_MOVE = 'SYS_MOVE'
 
 export const SET_PLAYING = 'SET_PLAYING'
 export const SET_BOARD = 'SET_BOARD'
-export const SET_POINT = 'SET_POINT'
+export const SET_PLAYER = 'SET_PLAYER'

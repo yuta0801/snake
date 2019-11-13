@@ -15,16 +15,16 @@ const board = handleActions({
   },
 }, initialState.board)
 
-const point = handleActions({
-  [Types.SET_POINT]: (_, action: Action<State['point']>) => {
+const player = handleActions({
+  [Types.SET_PLAYER]: (_, action: Action<State['player']>) => {
     return action.payload
   },
-}, initialState.point)
+}, initialState.player)
 
 const reducer = combineReducers({
   playing,
   board,
-  point,
+  player,
 })
 
 export default reducer

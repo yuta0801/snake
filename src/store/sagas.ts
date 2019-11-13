@@ -1,7 +1,7 @@
 import { select, take, takeLatest, put, fork, delay } from 'redux-saga/effects'
+import { TICK_INTERVAL, DIRECTION } from '../game/constants'
 import * as Actions from './actions'
 import * as Types from './types'
-import { TICK_INTERVAL, DIRECTION } from '../game/constants'
 import { State } from './state'
 import * as Game from '../game'
 
@@ -14,7 +14,9 @@ function* gameHandleKey() {
   while (true) {
     const { payload: keyCode } = yield take(Types.UI_KEY_DOWN)
     if (Object.keys(DIRECTION).includes(String(keyCode))) {
-      yield put(Actions.sysMove(DIRECTION[keyCode]))
+      const player = yield select((state: State) => state.player)
+      const direction = Game.nextDirection(player.direction, keyCode)
+      yield put(Actions.setPlayer({ ...player, direction }))
     }
   }
 }
@@ -22,11 +24,10 @@ function* gameHandleKey() {
 function* gameBoardUpdate() {
   while (true) {
     yield delay(TICK_INTERVAL)
-    const { board, point } = yield select((state: State) => state)
-    const { payload: direction } = yield take(Types.SYS_MOVE)
-    const next = Game.move(point, direction)
-    if (!Game.isEmpty(board, next)) break
-    yield put(Actions.setPoint(next))
+    const { board, player } = yield select((state: State) => state)
+    const point = Game.nextPoint(player.point, player.direction)
+    if (!Game.isEmpty(board, point)) break
+    yield put(Actions.setPlayer({ ...player, point }))
   }
   yield put(Actions.sysGameOver())
 }

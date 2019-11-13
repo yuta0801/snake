@@ -1,7 +1,14 @@
-import { CELL_TYPE } from './constants'
-import { Board, Point } from './types'
+import { CELL_TYPE, DIRECTION } from './constants'
+import { Board, Point, Direction } from './types'
 
-export const move = (point: Point, direction: Point) => {
+export const nextDirection = (current: Direction, keyCode: number) => {
+  const next = DIRECTION[keyCode]
+  if (current.x + next.x === 0 || current.y + next.y === 0)
+    return current
+  return next
+}
+
+export const nextPoint = (point: Point, direction: Direction) => {
   return { x: point.x + direction.x, y: point.y + direction.y }
 }
 
