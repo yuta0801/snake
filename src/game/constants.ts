@@ -14,6 +14,7 @@ export const INITIAL_BOARD = [
 export const INITIAL_PLAYER = {
   point: { x: 12, y: 12 },
   direction: { x: 0, y: 0 },
+  length: 1,
 } as const
 
 export const CELL_SIZE = 20
