@@ -11,11 +11,7 @@ export const INITIAL_PLAYER = {
 } as const
 
 export const CELL_SIZE = 20
-export enum CELL_TYPE {
-  EMPTY,
-  FULL,
-}
-export const CELL_COLORS = ['white', 'black']
+export const CELL_COLORS = ['white', 'black', 'orange']
 
 export const KEYS = {
   ARROW_LEFT: 37,
