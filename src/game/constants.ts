@@ -7,7 +7,7 @@ export const INITIAL_BOARD =
 
 export const INITIAL_PLAYER = {
   point: { x: 12, y: 12 },
-  direction: { x: 1, y: 0 },
+  direction: { x: 0, y: 0 },
 } as const
 
 export const CELL_SIZE = 20
@@ -23,6 +23,11 @@ export const KEYS = {
   ARROW_RIGHT: 39,
   ARROW_DOWN: 40,
 }
+
+export const ARROW_KEYS = [
+  KEYS.ARROW_LEFT, KEYS.ARROW_UP,
+  KEYS.ARROW_RIGHT, KEYS.ARROW_DOWN,
+]
 
 export const DIRECTION = {
   [KEYS.ARROW_LEFT]: { x: -1, y: 0 },

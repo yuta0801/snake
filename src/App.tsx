@@ -10,7 +10,7 @@ const App = () => {
   const { playing } = useSelector((state: State) => state)
 
   return (
-    playing ? <Board /> : <p>Type any key to start game</p>
+    playing ? <Board /> : <p>Type arrow key to start game</p>
   )
 }
 

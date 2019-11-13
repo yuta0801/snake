@@ -1,5 +1,5 @@
 import { select, take, takeLatest, put, fork, delay } from 'redux-saga/effects'
-import { TICK_INTERVAL, DIRECTION, INITIAL_PLAYER } from '../game/constants'
+import { TICK_INTERVAL, INITIAL_PLAYER, ARROW_KEYS } from '../game/constants'
 import * as Actions from './actions'
 import * as Types from './types'
 import { State } from './state'
@@ -11,14 +11,16 @@ function* game() {
   yield fork(gameBoardUpdate)
 }
 
+function* gamePlayerMove(keyCode: number) {
+  const player = yield select((state: State) => state.player)
+  const direction = Game.nextDirection(player.direction, keyCode)
+  yield put(Actions.setPlayer({ ...player, direction }))
+}
+
 function* gameHandleKey() {
   while (true) {
     const { payload: keyCode } = yield take(Types.UI_KEY_DOWN)
-    if (Object.keys(DIRECTION).includes(String(keyCode))) {
-      const player = yield select((state: State) => state.player)
-      const direction = Game.nextDirection(player.direction, keyCode)
-      yield put(Actions.setPlayer({ ...player, direction }))
-    }
+    if (ARROW_KEYS.includes(keyCode)) yield gamePlayerMove(keyCode)
   }
 }
 
@@ -35,9 +37,12 @@ function* gameBoardUpdate() {
 
 function* top() {
   while (true) {
-    yield take(Types.UI_KEY_DOWN)
+    const { payload: keyCode } = yield take(Types.UI_KEY_DOWN)
+    if (!ARROW_KEYS.includes(keyCode)) continue
+
     yield put(Actions.sysGameStart())
     yield put(Actions.setPlaying(true))
+    yield gamePlayerMove(keyCode)
 
     yield take(Types.SYS_GAME_OVER)
     yield put(Actions.setPlaying(false))

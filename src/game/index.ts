@@ -3,7 +3,7 @@ import { Board, Point, Direction } from './types'
 
 export const nextDirection = (current: Direction, keyCode: number) => {
   const next = DIRECTION[keyCode]
-  if (current.x + next.x === 0 || current.y + next.y === 0)
+  if (current.x + next.x === 0 && current.y + next.y === 0)
     return current
   return next
 }
