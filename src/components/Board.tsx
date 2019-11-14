@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { State } from '../store/state'
 import { BOARD_SIZE, CELL_SIZE, CELL_COLORS } from '../game/constants'
 
-Konva.pixelRatio = 1
+Konva.pixelRatio = 2
 
 const Board = () => {
   const { board, player } = useSelector((state: State) => state)
