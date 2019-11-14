@@ -1,14 +1,24 @@
+import { Board } from './types'
+
 export const TICK_INTERVAL = 100
 
 export const FIELD_SIZE = 25
 
 export const BOARD_SIZE = FIELD_SIZE + 2
 
-export const INITIAL_BOARD = [
-  Array(BOARD_SIZE).fill(1),
-  ...[...Array(FIELD_SIZE)]
-    .map(() => [1, ...Array(FIELD_SIZE).fill(0), 1]),
-  Array(BOARD_SIZE).fill(1),
+export const CELL_EMPTY = { type: 'EMPTY' } as const
+export const CELL_WALL = { type: 'WALL' } as const
+export const CELL_FOOD = { type: 'FOOD' } as const
+export const CELL_SNAKE = { type: 'SNAKE' } as const
+
+export const INITIAL_BOARD: Board = [
+  Array(BOARD_SIZE).fill(CELL_WALL),
+  ...Array.from({ length: FIELD_SIZE }, () => [
+    CELL_WALL,
+    ...Array(FIELD_SIZE).fill(CELL_EMPTY),
+    CELL_WALL,
+  ]),
+  Array(BOARD_SIZE).fill(CELL_WALL),
 ]
 
 export const INITIAL_PLAYER = {
@@ -18,7 +28,12 @@ export const INITIAL_PLAYER = {
 } as const
 
 export const CELL_SIZE = 20
-export const CELL_COLORS = ['white', 'black', 'orange']
+export const CELL_COLORS = {
+  EMPTY: 'white',
+  WALL: 'black',
+  FOOD: 'orange',
+  SNAKE: 'black',
+}
 
 export const KEYS = {
   ARROW_LEFT: 37,

@@ -17,7 +17,7 @@ const Board = () => {
       <Layer>
         { board.map((col, x) => col.map((cell, y) => {
           const here = x === player.point.x && y === player.point.y
-          const color = CELL_COLORS[here ? 1 : cell === -1 ? 2 : cell]
+          const color = CELL_COLORS[here ? 'SNAKE' : cell.type]
           return (
             <Rect
               x={x * CELL_SIZE} y={y * CELL_SIZE}

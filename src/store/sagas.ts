@@ -1,5 +1,5 @@
 import { select, take, takeLatest, put, fork, delay } from 'redux-saga/effects'
-import { TICK_INTERVAL, INITIAL_PLAYER, INITIAL_BOARD, ARROW_KEYS } from '../game/constants'
+import { TICK_INTERVAL, INITIAL_PLAYER, INITIAL_BOARD, ARROW_KEYS, CELL_FOOD } from '../game/constants'
 import * as Actions from './actions'
 import * as Types from './types'
 import { State } from './state'
@@ -26,7 +26,7 @@ function* gameHandleKey() {
 function* gamePutFood() {
   const { board } = yield select((state: State) => state)
   const point = Game.randomPoint(board)
-  const next = Game.nextBoard(board, point, -1)
+  const next = Game.nextBoard(board, point, CELL_FOOD)
   yield put(Actions.setBoard(next))
 }
 
@@ -48,7 +48,8 @@ function* gameBoardUpdate() {
     const { board, player } = yield select((state: State) => state)
     const point = Game.nextPoint(player.point, player.direction)
     if (!Game.canNext(board, point)) break
-    if (Game.onNext(board, player.point) === -1) yield put(Actions.sysGameEat())
+    if (Game.onNext(board, player.point).type === 'FOOD')
+      yield put(Actions.sysGameEat())
     yield put(Actions.setPlayer({ ...player, point }))
   }
   yield put(Actions.sysGameOver())
