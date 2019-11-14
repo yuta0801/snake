@@ -1,9 +1,15 @@
 export const TICK_INTERVAL = 100
 
-export const BOARD_SIZE = 25
+export const FIELD_SIZE = 25
 
-export const INITIAL_BOARD =
-  [...Array(BOARD_SIZE)].map(_ => Array(BOARD_SIZE).fill(0))
+export const BOARD_SIZE = FIELD_SIZE + 2
+
+export const INITIAL_BOARD = [
+  Array(BOARD_SIZE).fill(1),
+  ...[...Array(FIELD_SIZE)]
+    .map(() => [1, ...Array(FIELD_SIZE).fill(0), 1]),
+  Array(BOARD_SIZE).fill(1),
+]
 
 export const INITIAL_PLAYER = {
   point: { x: 12, y: 12 },
