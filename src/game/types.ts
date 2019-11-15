@@ -2,7 +2,7 @@ export type Cell =
   | { type: 'EMPTY' }
   | { type: 'WALL' }
   | { type: 'FOOD' }
-  | { type: 'SNAKE', length?: number }
+  | { type: 'SNAKE', length: number }
 
 export type Board = Cell[][]
 

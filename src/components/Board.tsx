@@ -8,7 +8,7 @@ import { BOARD_SIZE, CELL_SIZE, CELL_COLORS } from '../game/constants'
 Konva.pixelRatio = 2
 
 const Board = () => {
-  const { board, player } = useSelector((state: State) => state)
+  const { board } = useSelector((state: State) => state)
 
   const boardSize = BOARD_SIZE * CELL_SIZE
 
@@ -16,8 +16,7 @@ const Board = () => {
     <Stage width={boardSize} height={boardSize}>
       <Layer>
         { board.map((col, x) => col.map((cell, y) => {
-          const here = x === player.point.x && y === player.point.y
-          const color = CELL_COLORS[here ? 'SNAKE' : cell.type]
+          const color = CELL_COLORS[cell.type]
           return (
             <Rect
               x={x * CELL_SIZE} y={y * CELL_SIZE}

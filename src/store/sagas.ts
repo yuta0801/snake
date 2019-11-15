@@ -1,5 +1,5 @@
 import { select, take, takeLatest, put, fork, delay } from 'redux-saga/effects'
-import { TICK_INTERVAL, INITIAL_PLAYER, INITIAL_BOARD, ARROW_KEYS, CELL_FOOD } from '../game/constants'
+import { TICK_INTERVAL, INITIAL_PLAYER, INITIAL_BOARD, ARROW_KEYS } from '../game/constants'
 import * as Actions from './actions'
 import * as Types from './types'
 import { State } from './state'
@@ -13,7 +13,7 @@ function* game() {
 function* gamePlayerMove(keyCode: number) {
   const player = yield select((state: State) => state.player)
   const direction = Game.nextDirection(player.direction, keyCode)
-  yield put(Actions.setPlayer({ ...player, direction }))
+  yield put(Actions.setPlayerDirection(direction))
 }
 
 function* gameHandleKey() {
@@ -23,34 +23,26 @@ function* gameHandleKey() {
   }
 }
 
-function* gamePutFood() {
-  const { board } = yield select((state: State) => state)
-  const point = Game.randomPoint(board)
-  const next = Game.nextBoard(board, point, CELL_FOOD)
-  yield put(Actions.setBoard(next))
-}
-
-function* sysGameEat() {
+function* sysGameFood() {
   while (true) {
-    yield gamePutFood()
+    const { player, board } = yield select((state: State) => state)
+    yield put(Actions.setBoard(Game.putFood(board)))
     yield take(Types.SYS_GAME_EAT)
-    const { board, player } = yield select((state: State) => state)
-    const [nextBoard, length] = Game.eatFood(board, player)
-    yield put(Actions.setPlayer({ ...player, length }))
-    yield put(Actions.setBoard(nextBoard))
+    yield put(Actions.setPlayerLength(player.length + 1))
   }
 }
 
 function* gameBoardUpdate() {
-  yield fork(sysGameEat)
+  yield fork(sysGameFood)
   while (true) {
     yield delay(TICK_INTERVAL)
     const { board, player } = yield select((state: State) => state)
     const point = Game.nextPoint(player.point, player.direction)
-    if (!Game.canNext(board, point)) break
-    if (Game.onNext(board, player.point).type === 'FOOD')
-      yield put(Actions.sysGameEat())
-    yield put(Actions.setPlayer({ ...player, point }))
+    yield put(Actions.setBoard(Game.move(board, player)))
+    const cell = Game.current(board, player.point)
+    if (cell.type === 'FOOD') yield put(Actions.sysGameEat())
+    else if (cell.type !== 'EMPTY') break
+    yield put(Actions.setPlayerPoint(point))
   }
   yield put(Actions.sysGameOver())
 }

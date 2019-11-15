@@ -19,6 +19,15 @@ const player = handleActions({
   [Types.SET_PLAYER]: (_, action: Action<State['player']>) => {
     return action.payload
   },
+  [Types.SET_PLAYER_LENGTH]: (state, action: any) => {
+    return { ...state, length: action.payload }
+  },
+  [Types.SET_PLAYER_DIRECTION]: (state, action: any) => {
+    return { ...state, direction: action.payload }
+  },
+  [Types.SET_PLAYER_POINT]: (state, action: any) => {
+    return { ...state, point: action.payload }
+  },
 }, initialState.player)
 
 const reducer = combineReducers({

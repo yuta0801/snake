@@ -1,4 +1,4 @@
-import { DIRECTION, CELL_EMPTY } from './constants'
+import { DIRECTION, CELL } from './constants'
 import { Board, Point, Direction, Cell, Player } from './types'
 
 export const nextDirection = (current: Direction, keyCode: number) => {
@@ -16,7 +16,7 @@ export const canNext = (board: Board, point: Point) => {
   return board[point.x] && board[point.x][point.y].type !== 'WALL'
 }
 
-export const onNext = (board: Board, point: Point) => {
+export const current = (board: Board, point: Point) => {
   return board[point.x][point.y]
 }
 
@@ -38,9 +38,21 @@ export const randomPoint = (board: Board): Point => {
   return board[x][y].type === 'EMPTY' ? { x, y } : randomPoint(board)
 }
 
-export const eatFood = (board: Board, player: Player) => {
-  const cell = onNext(board, player.point)
-  if (cell.type !== 'FOOD') return [board, player.length] as const
-  const next = nextBoard(board, player.point, CELL_EMPTY)
-  return [next, cell ? player.length + 1 : player.length] as const
+export const putFood = (board: Board) => {
+  const point = randomPoint(board)
+  return nextBoard(board, point, CELL.FOOD())
+}
+
+export const clearBoard = (board: Board) => {
+  return board.map(row => row.map(cell => {
+    if (cell.type !== 'SNAKE') return cell
+    const length = cell.length - 1
+    return length > 0 ? CELL.SNAKE(length) : CELL.EMPTY()
+  }))
+}
+
+export const move = (board: Board, player: Player) => {
+  const cleared = clearBoard(board)
+  const cell = CELL.SNAKE(player.length)
+  return nextBoard(cleared, player.point, cell)
 }

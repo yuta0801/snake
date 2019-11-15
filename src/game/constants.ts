@@ -6,19 +6,21 @@ export const FIELD_SIZE = 25
 
 export const BOARD_SIZE = FIELD_SIZE + 2
 
-export const CELL_EMPTY = { type: 'EMPTY' } as const
-export const CELL_WALL = { type: 'WALL' } as const
-export const CELL_FOOD = { type: 'FOOD' } as const
-export const CELL_SNAKE = { type: 'SNAKE' } as const
+export const CELL = {
+  EMPTY: () => ({ type: 'EMPTY' } as const),
+  WALL: () => ({ type: 'WALL' } as const),
+  FOOD: () => ({ type: 'FOOD' } as const),
+  SNAKE: (length: number = 1) => ({ type: 'SNAKE', length } as const),
+}
 
 export const INITIAL_BOARD: Board = [
-  Array(BOARD_SIZE).fill(CELL_WALL),
+  Array(BOARD_SIZE).fill(CELL.WALL()),
   ...Array.from({ length: FIELD_SIZE }, () => [
-    CELL_WALL,
-    ...Array(FIELD_SIZE).fill(CELL_EMPTY),
-    CELL_WALL,
+    CELL.WALL(),
+    ...Array(FIELD_SIZE).fill(CELL.EMPTY()),
+    CELL.WALL(),
   ]),
-  Array(BOARD_SIZE).fill(CELL_WALL),
+  Array(BOARD_SIZE).fill(CELL.WALL()),
 ]
 
 export const INITIAL_PLAYER = {
@@ -52,4 +54,4 @@ export const DIRECTION = {
   [KEYS.ARROW_UP]: { x: 0, y: -1 },
   [KEYS.ARROW_RIGHT]: { x: 1, y: 0 },
   [KEYS.ARROW_DOWN]: { x: 0, y: 1 },
-}
+} as const
